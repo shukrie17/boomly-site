@@ -439,9 +439,16 @@
                 contact:
               </p>
               <p>
-                <a class="email-link" href="mailto:privacy@getboomly.com"
-                  >privacy@getboomly.com</a
+                <a
+                  class="email-link"
+                  href="mailto:privacy@getboomly.com"
+                  onclick="gtag('event', 'privacy_email_click', {
+                    event_category: 'Privacy',
+                    event_label: 'Privacy Policy'
+                  });"
                 >
+                  privacy@getboomly.com
+                </a>
               </p>
             </section>
           </article>
