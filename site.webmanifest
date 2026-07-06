@@ -1,0 +1,31 @@
+{
+  "name": "Boomly",
+  "short_name": "Boomly",
+  "description": "Discover the best coffee shops near you with Boomly.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fbfaf7",
+  "theme_color": "#527c55",
+  "lang": "en-ZA",
+  "categories": [
+    "food",
+    "travel",
+    "lifestyle"
+  ],
+  "icons": [
+    {
+      "src": "/images/app_icon_1024_2.jpeg",
+      "sizes": "1024x1024",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "/images/app_icon_1024_2.jpeg",
+      "sizes": "1024x1024",
+      "type": "image/jpeg",
+      "purpose": "maskable"
+    }
+  ]
+}
