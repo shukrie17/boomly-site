@@ -100,8 +100,13 @@
             ><a href="/terms_of_use" class="">Terms of Use</a
             ><a href="/support" class="">Support</a>
           </div>
-          <!--<a class="download-btn" href="#download" aria-label="Download Boomly"
-            ><svg
+          <a
+            class="download-btn"
+            href="#"
+            id="downloadBoomlyBtn"
+            aria-label="Download Boomly"
+          >
+            <svg
               width="18"
               height="18"
               viewBox="0 0 24 24"
@@ -111,9 +116,10 @@
             >
               <path d="M12 3v12" />
               <path d="m7 10 5 5 5-5" />
-              <path d="M5 20h14" /></svg
-            >Download Boomly</a
-          >-->
+              <path d="M5 20h14" />
+            </svg>
+            Download Boomly
+          </a>
         </nav>
       </header>
       <section class="hero">
@@ -454,7 +460,35 @@
           </article>
         </div>
       </main>
+      <div class="store-modal" id="storeModal" aria-hidden="true">
+        <div class="store-modal-card">
+          <button class="store-modal-close" id="closeStoreModal">×</button>
+
+          <h2>Download Boomly</h2>
+          <p>Choose your app store.</p>
+
+          <div class="store-actions">
+            <a
+              class="store-btn"
+              href="YOUR_GOOGLE_PLAY_LINK"
+              onclick="gtag('event', 'download_android_click');"
+            >
+              Get it on Google Play
+            </a>
+
+            <a
+              class="store-btn"
+              href="YOUR_APP_STORE_LINK"
+              onclick="gtag('event', 'download_ios_click');"
+            >
+              Download on the App Store
+            </a>
+          </div>
+        </div>
+      </div>
+
       <footer class="footer">© 2026 Boomly. All rights reserved.</footer>
     </div>
+    <script src="/script.js"></script>
   </body>
 </html>
