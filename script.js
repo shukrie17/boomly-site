@@ -1,4 +1,4 @@
-const googlePlayUrl = "https://play.google.com/store/apps/details?id=com.shukrie.boomlyapp&pcampaignid=web_share";
+const googlePlayUrl = "https://play.google.com/store/apps/details?id=com.shukrie.boomlyapp";
 const appStoreUrl = "YOUR_APP_STORE_LINK";
 
 function getDeviceType() {
@@ -58,7 +58,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (device === "android") {
       gtag?.("event", "download_android_click");
-      window.location.href = googlePlayUrl;
+
+      window.location.href =
+        "market://details?id=com.shukrie.boomlyapp";
+
+      setTimeout(() => {
+        window.location.href =
+          "https://play.google.com/store/apps/details?id=com.shukrie.boomlyapp";
+      }, 800);
+
       return;
     }
 
