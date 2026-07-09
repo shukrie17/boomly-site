@@ -1,14 +1,23 @@
-const googlePlayUrl = "YOUR_GOOGLE_PLAY_LINK";
+const googlePlayUrl = "https://play.google.com/store/apps/details?id=com.shukrie.boomlyapp&pcampaignid=web_share";
 const appStoreUrl = "YOUR_APP_STORE_LINK";
 
 function getDeviceType() {
-  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  const userAgent =
+    navigator.userAgent || navigator.vendor || window.opera || "";
 
   if (/android/i.test(userAgent)) {
     return "android";
   }
 
   if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+    return "ios";
+  }
+
+  if (
+    navigator.platform === "MacIntel" &&
+    navigator.maxTouchPoints &&
+    navigator.maxTouchPoints > 1
+  ) {
     return "ios";
   }
 
