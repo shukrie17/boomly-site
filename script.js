@@ -17,6 +17,25 @@ function trackEvent(eventName, parameters = {}) {
   gtag("event", eventName, parameters);
 }
 
+function updateBackToTopButton() {
+  const button = document.querySelector(".back-to-top");
+
+  if (!button) {
+    return;
+  }
+
+  const page = getCurrentPage();
+  const isSupportedPage =
+    page === "privacy" || page === "terms" || page === "support";
+  const hero = document.querySelector(".hero");
+  const heroBottom = hero ? hero.offsetTop + hero.offsetHeight : 350;
+  const shouldShow = isSupportedPage && window.scrollY > heroBottom + 350;
+
+  button.classList.toggle("visible", shouldShow);
+  button.setAttribute("aria-hidden", String(!isSupportedPage));
+  button.tabIndex = isSupportedPage ? 0 : -1;
+}
+
 function injectGlobalLayout() {
   const pathname = window.location.pathname;
   let header = document.querySelector(".site-header");
@@ -252,6 +271,40 @@ function injectGlobalLayout() {
   if (!footer || !modal) {
     return;
   }
+
+  let backToTopButton = document.querySelector(".back-to-top");
+
+  if (!backToTopButton) {
+    backToTopButton = document.createElement("button");
+    backToTopButton.className = "back-to-top";
+    backToTopButton.type = "button";
+    backToTopButton.setAttribute("aria-label", "Back to top");
+    backToTopButton.setAttribute("aria-hidden", "true");
+    backToTopButton.tabIndex = -1;
+    backToTopButton.innerHTML = `
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="m18 15-6-6-6 6" />
+      </svg>
+    `;
+
+    backToTopButton.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    document.body.appendChild(backToTopButton);
+  }
+
+  updateBackToTopButton();
 
   // Set active navigation link
   const navLinks = header.querySelectorAll(".nav-links a");
@@ -529,6 +582,10 @@ function closeStoreModal() {
 
 document.addEventListener("DOMContentLoaded", () => {
   injectGlobalLayout();
+
+  window.addEventListener("scroll", updateBackToTopButton, {
+    passive: true,
+  });
 
   document.addEventListener("click", (event) => {
     const link = event.target.closest("a[href]");
