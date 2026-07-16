@@ -36,6 +36,18 @@ function updateBackToTopButton() {
   button.tabIndex = isSupportedPage ? 0 : -1;
 }
 
+function updateStickyHeader() {
+  const header = document.querySelector(".site-header");
+  const hero = document.querySelector(".hero");
+
+  if (!header || !hero) {
+    return;
+  }
+
+  const heroBottom = hero.offsetTop + hero.offsetHeight;
+  header.classList.toggle("scrolled", window.scrollY > heroBottom);
+}
+
 function injectGlobalLayout() {
   const pathname = window.location.pathname;
   let header = document.querySelector(".site-header");
@@ -305,6 +317,7 @@ function injectGlobalLayout() {
   }
 
   updateBackToTopButton();
+  updateStickyHeader();
 
   // Set active navigation link
   const navLinks = header.querySelectorAll(".nav-links a");
@@ -584,6 +597,9 @@ document.addEventListener("DOMContentLoaded", () => {
   injectGlobalLayout();
 
   window.addEventListener("scroll", updateBackToTopButton, {
+    passive: true,
+  });
+  window.addEventListener("scroll", updateStickyHeader, {
     passive: true,
   });
 
