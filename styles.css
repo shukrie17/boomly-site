@@ -262,6 +262,22 @@ svg {
   align-items: start;
 }
 
+.content-layout-single {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+}
+
+.content-layout-single .content-card {
+  width: 100%;
+  max-width: 100%;
+}
+
+.content-layout-single .home-card {
+  width: min(100%, 980px);
+  max-width: 980px;
+  margin: 0 auto;
+}
+
 .side-nav {
   position: sticky;
   top: 28px;
@@ -623,6 +639,9 @@ svg {
   .content-layout {
     grid-template-columns: 1fr;
     gap: 32px;
+  }
+  .content-layout-single {
+    gap: 0;
   }
 
   .side-nav {
