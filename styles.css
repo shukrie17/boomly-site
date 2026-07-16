@@ -269,8 +269,9 @@ svg {
 }
 
 .content-layout-single .content-card {
-  width: 100%;
-  max-width: 100%;
+  width: min(100%, 900px);
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .content-layout-single .home-card {

@@ -434,6 +434,77 @@ function getCurrentPage() {
   return "unknown";
 }
 
+async function navigateToPage(url, { updateHistory = true } = {}) {
+  const targetUrl = new URL(url, window.location.origin);
+  const currentMain = document.querySelector("main.page-wrap");
+
+  if (!currentMain) {
+    window.location.href = targetUrl.href;
+    return;
+  }
+
+  try {
+    const response = await fetch(targetUrl.href, {
+      headers: {
+        "X-Requested-With": "BoomlyNavigation",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Unable to load page: ${response.status}`);
+    }
+
+    const html = await response.text();
+    const parsedDocument = new DOMParser().parseFromString(html, "text/html");
+    const nextMain = parsedDocument.querySelector("main.page-wrap");
+
+    if (!nextMain) {
+      throw new Error("The requested page does not contain the expected main content.");
+    }
+
+    currentMain.replaceWith(nextMain);
+    document.title = parsedDocument.title || document.title;
+
+    if (updateHistory) {
+      window.history.pushState({}, "", targetUrl.pathname + targetUrl.search + targetUrl.hash);
+    }
+
+    injectGlobalLayout();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } catch (error) {
+    console.error(error);
+    window.location.href = targetUrl.href;
+  }
+}
+
+function shouldUseClientNavigation(link, event) {
+  if (
+    event.defaultPrevented ||
+    event.button !== 0 ||
+    event.metaKey ||
+    event.ctrlKey ||
+    event.shiftKey ||
+    event.altKey
+  ) {
+    return false;
+  }
+
+  if (!link || link.target === "_blank" || link.hasAttribute("download")) {
+    return false;
+  }
+
+  const url = new URL(link.href, window.location.origin);
+  const isSameOrigin = url.origin === window.location.origin;
+  const isSupportedPage =
+    url.pathname === "/" ||
+    url.pathname === "/index.html" ||
+    url.pathname.includes("privacy") ||
+    url.pathname.includes("terms_of_use") ||
+    url.pathname.includes("support");
+
+  return isSameOrigin && isSupportedPage;
+}
+
 function openStoreModal() {
   const modal = document.getElementById("storeModal");
 
@@ -458,6 +529,21 @@ function closeStoreModal() {
 
 document.addEventListener("DOMContentLoaded", () => {
   injectGlobalLayout();
+
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest("a[href]");
+
+    if (!shouldUseClientNavigation(link, event)) {
+      return;
+    }
+
+    event.preventDefault();
+    navigateToPage(link.href);
+  });
+
+  window.addEventListener("popstate", () => {
+    navigateToPage(window.location.href, { updateHistory: false });
+  });
 
   const downloadButton = document.getElementById("downloadBoomlyBtn");
   const closeButton = document.getElementById("closeStoreModal");
