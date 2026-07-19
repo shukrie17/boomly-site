@@ -1,6 +1,6 @@
 const googlePlayUrl =
   "https://play.google.com/store/apps/details?id=com.shukrie.boomlyapp";
-const appStoreUrl = "YOUR_APP_STORE_LINK";
+const appStoreUrl = "https://apps.apple.com/us/app/boomly-coffee-finder/id6777736405";
 const instagramUrl =
   "https://www.instagram.com/get_boomly?igsh=MWVjZGpjb2IwMGtvOA%3D%3D&utm_source=qr";
 const tiktokUrl = "https://www.tiktok.com/@getboomly?_r=1&_t=ZS-97rtq2sOKKD";
