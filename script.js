@@ -48,11 +48,67 @@ function updateStickyHeader() {
   header.classList.toggle("scrolled", window.scrollY > heroBottom);
 }
 
+function injectStoreModal() {
+  let modal = document.getElementById("storeModal");
+
+  // Reuse the existing page modal until it has been removed from each HTML file.
+  if (modal) {
+    return modal;
+  }
+
+  modal = document.createElement("div");
+  modal.className = "store-modal";
+  modal.id = "storeModal";
+  modal.setAttribute("aria-hidden", "true");
+
+  modal.innerHTML = `
+    <div
+      class="store-modal-card"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="storeModalTitle"
+      aria-describedby="storeModalDescription"
+    >
+      <button
+        class="store-modal-close"
+        id="closeStoreModal"
+        type="button"
+        aria-label="Close download options"
+      >
+        ×
+      </button>
+
+      <h2 id="storeModalTitle">Download Boomly</h2>
+      <p id="storeModalDescription">Choose your app store.</p>
+
+      <div class="store-actions">
+        <a
+          class="store-btn"
+          href="${googlePlayUrl}"
+        >
+          Get it on Google Play
+        </a>
+
+        <a
+          class="store-btn"
+          href="${appStoreUrl}"
+        >
+          Download on the App Store
+        </a>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  return modal;
+}
+
 function injectGlobalLayout() {
   const pathname = window.location.pathname;
   let header = document.querySelector(".site-header");
   const footer = document.querySelector(".footer");
-  const modal = document.getElementById("storeModal");
+  const modal = injectStoreModal();
 
   if (!header) {
     header = document.createElement("header");
